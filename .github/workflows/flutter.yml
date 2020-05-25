@@ -20,10 +20,16 @@ jobs:
         channel: 'beta'
     - run: flutter pub get
     - run: flutter doctor -v
-#     - run: flutter build apk
-    - name: Setup Go environment
-      uses: actions/setup-go@v2.0.3
+    - run: flutter build apk --debug --split-per-abi
+    - name: Push APK to Releases
+      uses: ncipollo/release-action@v1
       with:
-        go-version: 1.14.1
-        stable: true 
-    - run: go version
+        artifacts: "build/app/outputs/apk/debug/*.apk"
+        token: ${{ secrets.TOKEN }}
+
+#     - name: Setup Go environment
+#       uses: actions/setup-go@v2.0.3
+#       with:
+#         go-version: 1.14.1
+#         stable: true 
+#     - run: go version
