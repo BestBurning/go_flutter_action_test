@@ -34,6 +34,7 @@ jobs:
         docker_version: 19.03  #optional, default is 19.03
         # Docker Channel
         docker_channel: stable  # optional, default is stable
-    - run: docker ps -a
-    - run: hover build darwin-dmg
+    - run: docker version
+    - run: apt-get install png2icns
+    - run: hover build darwin-dmg --docker
 
