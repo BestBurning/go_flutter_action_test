@@ -19,7 +19,8 @@ jobs:
         flutter-version: '1.19.0-1.0.pre'
         channel: 'dev'
     - name: enable desktop
-    - run: flutter  config --enable-macos-desktop
+      run: |
+        flutter  config --enable-macos-desktop
 #        flutter  config --enable-linux-desktop
 #        flutter  config --enable-windows-desktop
 #        flutter  config --enable-web
