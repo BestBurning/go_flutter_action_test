@@ -31,18 +31,25 @@ jobs:
         sed -i "" "s/KEY_PASSWORD/${{ secrets.KEY_PASSWORD }}/g" android/key.properties
         sed -i "" "s/STORE_PASSWORD/${{ secrets.STORE_PASSWORD }}/g" android/key.properties
         echo "${{ secrets.PLAY_STORE_UPLOAD_KEY }}" | base64 --decode > android/key.jks
+    - name: Setup Go environment
+      uses: actions/setup-go@v2.0.3
+      with:
+        go-version: 1.14.1
+        stable: true 
+    - run: go version
+    - run: GO111MODULE=on go get -u -a github.com/go-flutter-desktop/hover
+    - name: setup-docker
+      uses: docker-practice/actions-setup-docker@0.0.1
+      with:
+        # Docker Version
+        docker_version: 19.03  #optional, default is 19.03
+        # Docker Channel
+        docker_channel: stable  # optional, default is stable
+    - run: hover build darwin-dmg
     - run: flutter build apk
-    - run: flutter build macos --release
-#    - run: flutter build ios --
     - name: Push APK to Releases
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "build/app/outputs/apk/release/*.apk,build/macos/Build/Products/Release/*.app"
+        artifacts: "build/app/outputs/apk/release/*.apk"
         token: ${{ secrets.TOKEN }}
 
-#     - name: Setup Go environment
-#       uses: actions/setup-go@v2.0.3
-#       with:
-#         go-version: 1.14.1
-#         stable: true 
-#     - run: go version
